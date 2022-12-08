@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { useSelector } from 'react-redux'
+import EditDrawer from './components/EditDrawer'
+import Editor from './components/Editor'
+import Toolbox from './components/Toolbox'
 
 function App() {
+  const { activeElementId, isOpen } = useSelector((state) => state.drawer)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <DndProvider backend={HTML5Backend}>
+      <div className="w-screen h-screen mx-auto overflow-auto flex gap-12 px-12 pt-4">
+        {isOpen && <EditDrawer activeElementId={activeElementId} />}
+        <Editor />
+        <Toolbox />
+      </div>
+    </DndProvider>
   );
 }
 
